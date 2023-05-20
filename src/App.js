@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import data from './data/index';
 
-function App() {
+// context
+import AppContext from './context/index';
+
+// views 
+import Home from './pages/Home';
+
+// components
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+const App = () => {
+  const { menuOpen, toggleMenu } = useContext(AppContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <React.Fragment>
+      <BrowserRouter>
+        <Header
+          navigation={data.navigation}
+          menuOpen={menuOpen}
+          onToggle={toggleMenu}
+        />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </main>
+        <Footer />
+      </BrowserRouter>
+    </React.Fragment>
+  )
 }
 
 export default App;

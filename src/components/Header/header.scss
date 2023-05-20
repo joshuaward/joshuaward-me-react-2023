@@ -1,0 +1,156 @@
+@import '../../assets/scss/main.scss';
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: block;
+	padding: 0.5rem 0;
+	z-index: 99;
+	&__inner {
+		// @include container($max: 95vw, $margin: 1rem);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+	&__logo {
+		justify-self: start;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		&-icon {
+			width: 3rem;
+			height: 3rem;
+			> svg {
+				width: 3rem;
+				height: 3rem;
+				fill: $primary;
+			}
+		}
+	}
+	
+	&__toggle {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		width: 2rem;
+		height: 2rem;
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		z-index: 101;
+		&:hover {
+			&::before,
+			&::after {
+				background: $secondary;
+			}
+		}
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			display: block;
+			width: 100%;
+			height: 0.125rem;
+			background: $primary;
+			// transform-origin: center;
+			// transition: transform 0.25s ease;
+		}
+		&::before {
+			transform: translateY(-0.25rem) rotate(0);
+			animation: hamburger1 0.5s ease;
+		}
+		&::after {
+			transform: translateY(0.25rem) rotate(0);
+			animation: hamburger2 0.5s ease;
+		}
+		&.is-open {
+			&::before,
+			&::after {
+				background: $white;
+			}
+			&::before {
+				transform: translateY(0) rotate(-45deg);
+				animation: hamburger3 0.5s ease;
+			}
+			&::after {
+				transform: translateY(0) rotate(45deg);
+				animation: hamburger4 0.5s ease;
+			}
+		}
+
+		@keyframes hamburger1 {
+			0% { transform: translateY(0); }
+			100% { transform: translateY(-0.25rem) rotate(0); }
+		}
+		@keyframes hamburger2 {
+			0% { transform: translateY(0); }
+			100% { transform: translateY(0.25rem) rotate(0); }
+		}
+		@keyframes hamburger3 {
+			0% { transform: translateY(0); }
+			100% { transform: translateY(0) rotate(-45deg); }
+		}
+		@keyframes hamburger4 {
+			0% { transform: translateY(0); }
+			100% { transform: translateY(0) rotate(45deg); }
+		}
+	}
+
+	&__nav {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 90vw;
+		height: 100vh;
+		padding-top: 6.25rem;
+		background: rgba($secondary, 0.95);
+		transform: translateX(100%);
+		transition: transform 0.5s ease;
+		z-index: 100;
+		@include mq(md) {
+			max-width: 23.5rem;
+		}
+		&.is-open {
+			transform: translateX(0%);
+		}
+		&-list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		&-item {
+			border-bottom: 1px solid rgba($white, 0.3);
+			&:first-child {
+				border-top: 1px solid rgba($white, 0.3);
+			}
+			.is-open & {
+				@for $i from 1 through 5 {
+					&:nth-child(#{$i}) {
+						.header__nav-link {
+							transform: translateX(0%);
+							transition-delay: #{$i * 0.123}s;
+						}
+					}
+				}
+			}
+		}
+		&-link {
+			display: block;
+			padding: 0.5rem;
+			transform: translateX(100%);
+			transition: transform 0.25s ease;
+			color: $white;
+			font-weight: 300;
+		}
+	}
+}
